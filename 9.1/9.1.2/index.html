@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+###9.1.2
+Создай js компонент Message. Это будет класс Message, который будет создавать объект, со своей собственной логикой и
+методом render, чтобы отрисовать DOM-элемент. Класс и его использование должно быть следующим:
+
+class Message {
+constructor(props) {
+this.title = props.title
+this.body = props.body
+
+this.element = this.createComponent(); // создает DOM-элемент
+}
+
+createComponent() {
+...
+}
+render() {
+...
+}
+}
+
+const messageWrapper = document.getElementById('messageWrapper'); // в HTML добавь div#messageWrapper
+const warningMessage = new Message({
+title: 'Warning',
+body: 'You don't have permission!'
+});
+
+messageWrapper.appendChild(warningMessage.render());
+
+После этого у тебя в HTML в указанном диве должна отрендерится такая структура (стили не нужно писать):
+<!--<div id="messageWrapper">-->
+<!--	<div class="c-message">-->
+<!--		<div class="c-message__title">** Warning **</div>-->
+<!--		<div class="c-message__body">You don't have permission!</div>-->
+<!--	</div>-->
+<!--</div>-->
+<div id="messageWrapper"></div>
+
+<script>
+	class Message {
+		constructor(props) {
+			this.title = props.title
+			this.body = props.body
+
+			this.element = this.createComponent(); // создает DOM-элемент
+		}
+
+		createComponent() {
+			const self = this;
+			const messageDiv = document.createElement('div');
+			const messageTitleDiv = document.createElement('div');
+			const messageBodyDiv = document.createElement('div');
+
+			messageDiv.classList.add('c-message');
+
+			messageTitleDiv.classList.add('c-message__title');
+			messageTitleDiv.addEventListener('click', function () {
+				alert(self.title)
+			})
+			messageTitleDiv.innerHTML = this.title;
+
+			messageBodyDiv.classList.add('c-message__body');
+			messageBodyDiv.innerHTML = this.body;
+
+			messageDiv.append(messageTitleDiv);
+			messageDiv.append(messageBodyDiv);
+
+			return messageDiv;
+		}
+
+		render() {
+			return this.element;
+		}
+	}
+
+	const messageWrapper = document.getElementById('messageWrapper'); // в HTML добавь div#messageWrapper
+	const warningMessage = new Message({
+		title: 'Warning',
+		body: "You don't have permission!"
+	});
+
+	messageWrapper.append(warningMessage.render());
+</script>
+</body>
+</html>
